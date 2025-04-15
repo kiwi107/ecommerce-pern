@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan=require('morgan');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const app = express();
@@ -12,8 +13,9 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const authRoutes = require('./routes/authRoutes');
 const promotionRoutes = require('./routes/promotionRoutes');
+const adminRoutes=require('./routes/adminRoutes');
 
-
+app.use(morgan('dev'));
 
 
 app.use(cors({
@@ -25,7 +27,8 @@ app.use(express.json());
 
 // Middleware for routing
 app.use('/auth',authRoutes)
-//app.use('/users', userRoutes);
+app.use('/admin',adminRoutes)
+app.use('/users', userRoutes);
 // app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/payments', paymentRoutes);
