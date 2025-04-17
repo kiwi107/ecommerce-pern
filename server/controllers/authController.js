@@ -42,7 +42,7 @@ const register = async (req, res) => {
   
       // Insert new user into the database
       const insertUser = await pool.query(
-        'INSERT INTO accounts (username, password, email) VALUES ($1, $2, $3) RETURNING id, username, email',
+        'INSERT INTO accounts (username, password, email) VALUES ($1, $2, $3) RETURNING account_id, username, email',
         [username, hashedPassword, email]
       );
   
@@ -62,7 +62,7 @@ const register = async (req, res) => {
       res.status(201).json({
         message: 'User created successfully',
         user: {
-          id: user.id,
+          id: user.account_id,
           username: user.username,
           email: user.email
         }
@@ -118,7 +118,7 @@ const login =async(req,res)=>{
           res.status(200).json({
             message: 'Login successful',
             user: {
-              id: user.id,
+              id: user.account_id,
               username: user.username,
               email: user.email
             }
@@ -195,6 +195,41 @@ const login =async(req,res)=>{
       }
 
 
+      const resetPassword = async (req, res) => {
+        const { token, newPassword } = req.body;
+      
+        try {
+          
+          
+            // 1. Find user by reset token
+            const result = await pool.query(
+              'SELECT * FROM accounts WHERE reset_token = $1',
+              [token]
+            );
+
+            if (result.rows.length === 0) {
+              return res.status(400).json({ message: 'Invalid or expired reset token' });
+            }
+
+            const user = result.rows[0];
+          
+         
+         
+      
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          await pool.query(
+            'UPDATE accounts SET password = $1, reset_token = NULL WHERE account_id = $2',
+            [hashedPassword, user.account_id]
+          );
+      
+          res.status(200).json({ message: 'Password reset successful' });
+      
+        } catch (err) {
+          console.error('Reset error:', err);
+          res.status(400).json({ message: 'Invalid or expired token' });
+        }
+      };
+
 
   
 module.exports = {
@@ -202,5 +237,6 @@ module.exports = {
     register,
     login,
     logout,
-    forget_password
+    forget_password,
+    resetPassword
 }

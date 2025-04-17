@@ -6,6 +6,7 @@ require('dotenv').config();
 const app = express();
 const port = 8000;
 
+
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -16,7 +17,6 @@ const promotionRoutes = require('./routes/promotionRoutes');
 const adminRoutes=require('./routes/adminRoutes');
 
 app.use(morgan('dev'));
-
 
 app.use(cors({
   origin: process.env.CLIENT_URL,
@@ -37,14 +37,6 @@ app.use('/users', userRoutes);
 
 
 
-// Middleware for routing
-app.use('/auth',authRoutes)
-//app.use('/users', userRoutes);
-// app.use('/products', productRoutes);
-// app.use('/orders', orderRoutes);
-// app.use('/payments', paymentRoutes);
-// app.use('/reviews', reviewRoutes);
-// app.use('/promotions', promotionRoutes);
 
 
 
