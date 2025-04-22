@@ -196,7 +196,8 @@ const login =async(req,res)=>{
 
 
       const resetPassword = async (req, res) => {
-        const { token, newPassword } = req.body;
+        const { token, password } = req.body;
+        console.log(token)
       
         try {
           
@@ -216,7 +217,7 @@ const login =async(req,res)=>{
          
          
       
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          const hashedPassword = await bcrypt.hash(password, 10);
           await pool.query(
             'UPDATE accounts SET password = $1, reset_token = NULL WHERE account_id = $2',
             [hashedPassword, user.account_id]
