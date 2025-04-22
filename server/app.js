@@ -1,8 +1,11 @@
 const express = require('express');
+
 const cors = require('cors');
-const morgan=require('morgan');
 const cookieParser = require('cookie-parser');
+const productRoutes = require('./routes/productRoutes.js');
+const morgan = require('morgan');
 require('dotenv').config();
+
 const app = express();
 const port = 8000;
 
@@ -24,12 +27,11 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
-
 // Middleware for routing
 app.use('/auth',authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/users', userRoutes);
-// app.use('/products', productRoutes);
+app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/payments', paymentRoutes);
 // app.use('/reviews', reviewRoutes);
