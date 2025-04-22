@@ -1,5 +1,6 @@
 const express = require('express');
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -8,18 +9,53 @@ const morgan = require('morgan');
 require('dotenv').config();
 >>>>>>> ded0f17 (homepage and navbar)
 
+=======
+const cors = require('cors');
+const morgan=require('morgan');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+>>>>>>> fd34bc77566e7d89c561c376bd68dac9f6d2533f
 const app = express();
 const port = 8000;
 
-// Middleware to parse JSON bodies
+
+const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const authRoutes = require('./routes/authRoutes');
+const promotionRoutes = require('./routes/promotionRoutes');
+const adminRoutes=require('./routes/adminRoutes');
+
+app.use(morgan('dev'));
+
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true, //allow cookies and auth headers to be sent
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use(morgan('dev'));
 
 
 app.use('/products', productRoutes);
 
+// Middleware for routing
+app.use('/auth',authRoutes)
+app.use('/admin',adminRoutes)
+app.use('/users', userRoutes);
+// app.use('/products', productRoutes);
+// app.use('/orders', orderRoutes);
+// app.use('/payments', paymentRoutes);
+// app.use('/reviews', reviewRoutes);
+// app.use('/promotions', promotionRoutes);
 
-// Start the server
+
+
+
+
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
