@@ -76,7 +76,7 @@ function Register() {
 
   return (
     <div className="login-container">
-      <form onSubmit={handleRegister} className="login-form shadow">
+      <form onSubmit={handleRegister} className="login-form register-form shadow">
         <h2 className="text-center mb-4">Register</h2>
 
         {error && <div className="error-message fade-in">{error}</div>}
@@ -120,7 +120,7 @@ function Register() {
             onChange={(e) => {
               setPassword(e.target.value);
               validatePassword(e.target.value);
-              validateConfirmPassword(confirmPassword); // live-check match
+              validateConfirmPassword(confirmPassword);
             }}
             required
           />
@@ -146,7 +146,7 @@ function Register() {
 
         <button
           type="submit"
-          className="btn btn-primary w-100 mt-4"
+          className="register-btn mt-4"
           disabled={
             usernameError ||
             emailError ||

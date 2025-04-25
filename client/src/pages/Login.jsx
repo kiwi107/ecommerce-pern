@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/authContext';
 import '../login.css'; 
 
 function Login() {
@@ -9,8 +10,8 @@ function Login() {
   const [passwordError, setPasswordError] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { setAuthState } = useAuth();  
 
-  // Real-time validation for email
   const validateEmail = (email) => {
     if (!email.includes('@')) {
       setEmailError('Please enter a valid email address.');
@@ -19,7 +20,6 @@ function Login() {
     }
   };
 
-  // Real-time validation for password
   const validatePassword = (password) => {
     if (password.length < 6) {
       setPasswordError('Password must be at least 6 characters.');
@@ -28,7 +28,6 @@ function Login() {
     }
   };
 
-  // Handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
     if (emailError || passwordError) {
@@ -43,12 +42,19 @@ function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+        credentials: 'include',
       });
 
       const data = await res.json();
+      
       if (!res.ok) throw new Error(data.message || 'Invalid credentials');
 
-      // Login success
+      setAuthState({
+        isAuthenticated: true,
+        user: data.user, 
+        lastChecked: Date.now()
+      });
+
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -92,7 +98,11 @@ function Login() {
           {passwordError && <div className="invalid-feedback">{passwordError}</div>}
         </div>
 
-        <button type="submit" className="btn btn-primary w-100 mt-4" disabled={emailError || passwordError}>
+        <button
+          type="submit"
+          className="login-btn mt-4"
+          disabled={emailError || passwordError}
+        >
           Login
         </button>
 
@@ -101,9 +111,8 @@ function Login() {
         </p>
 
         <p className="mt-2 text-center">
-  <a href="/forget-password">Forgot Password?</a>
+          <a href="/forget-password">Forgot Password?</a>
         </p>
-
       </form>
     </div>
   );
