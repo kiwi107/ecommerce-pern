@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     if (authState.lastChecked && Date.now() - authState.lastChecked < 300000) {
+      console.log(authState.user)
       return;
     }
 
@@ -24,12 +25,15 @@ const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         console.log('Auth check successful');
+       
         const data = await response.json();
+        console.log(data)
         setAuthState({
           isAuthenticated: true,
           user: data.user,
           lastChecked: Date.now()
         });
+        console.log("here is authStateuser",authState.user)
       } else {
         setAuthState({
           isAuthenticated: false,

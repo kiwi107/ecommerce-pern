@@ -96,6 +96,7 @@ const login =async(req,res)=>{
           }
       
           const user = result.rows[0];
+          
       
           // Compare the hashed password from DB with the entered password
           const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -107,7 +108,7 @@ const login =async(req,res)=>{
           // Create JWT token
           const token = createToken(user);
 
-          console.log(token)
+          
       
           // Set the token in HTTP-only cookie
           res.cookie('token', token, {
@@ -255,10 +256,8 @@ const verify = async (req, res,next) => {
     
     // 4. Attach user data to request object
     req.user = {
-      id: decoded.id,
+      id: decoded.user_id,
       username: decoded.username,
-      email: decoded.email
-      // Any other non-sensitive user data you need
     };
     
     console.log("ok")

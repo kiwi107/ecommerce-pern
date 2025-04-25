@@ -14,6 +14,7 @@ router.post('/resetPassword/:token',authController.resetPassword)
 
 router.get('/verify',authController.verify,(req, res) => {
   // If the token is valid, send the user data back
+  console.log("here in verify",req.user)
   res.status(200).json({ 
     user: req.user,
     message: 'Successfully authenticated'})
