@@ -10,6 +10,7 @@ import { CartProvider } from './contexts/CartContext';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile'; 
 import ProtectedRoute from './components/ProtectedRoute'; 
+import CheckoutPage from './pages/Checkout';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} /> {/* Product ID from URL */}
           <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           <Route path="/cart" element={<Cart />} />
-          {/* Add more routes as needed */}
+          <Route path="/checkout" element={<ProtectedRoute element={<CheckoutPage />} />} /> 
         </Routes>
       </Router>
     </CartProvider>

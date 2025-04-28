@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCart } from '../contexts/CartContext';
+import { Link } from 'react-router-dom';
 
 function Cart() {
     const { cartItems, totalQuantity, updateQuantity, removeFromCart } = useCart();
@@ -81,7 +82,7 @@ function Cart() {
                         <div className="card p-4 shadow-sm rounded-4">
                             <h5 className="mb-2">Total Items: {totalQuantity}</h5>
                             <h4 className="text-success">Total Price: ${totalPrice.toFixed(2)}</h4>
-                            <button className="btn btn-primary mt-3">Proceed to Checkout</button>
+                            <Link to="/checkout"className="btn btn-primary mt-3">Proceed to Checkout</Link>
                         </div>
                     </div>
                 </div>

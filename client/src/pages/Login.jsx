@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/authContext';
+import { Link } from 'react-router-dom';
 import '../login.css'; 
 
 function Login() {
@@ -11,6 +12,7 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { setAuthState } = useAuth();  
+
 
   const validateEmail = (email) => {
     if (!email.includes('@')) {
@@ -107,11 +109,11 @@ function Login() {
         </button>
 
         <p className="mt-3 text-center">
-          Don't have an account? <a href="/register">Register</a>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
 
         <p className="mt-2 text-center">
-          <a href="/forget-password">Forgot Password?</a>
+          <Link to="/forget-password">Forgot Password?</Link>
         </p>
       </form>
     </div>

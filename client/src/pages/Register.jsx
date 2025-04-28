@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../login.css'; // Reusing the same styles
+import {Link}  from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -158,7 +159,7 @@ function Register() {
         </button>
 
         <p className="mt-3 text-center">
-          Already have an account? <a href="/login">Login</a>
+          Already have an account? <Link href="/login">Login</Link>
         </p>
       </form>
     </div>
