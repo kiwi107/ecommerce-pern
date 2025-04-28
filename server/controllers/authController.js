@@ -95,6 +95,7 @@ const login =async(req,res)=>{
           }
       
           const user = result.rows[0];
+          
       
           // Compare the hashed password from DB with the entered password
           const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -105,6 +106,8 @@ const login =async(req,res)=>{
       
           // Create JWT token
           const token = createToken(user);
+
+          
       
           // Set the token in HTTP-only cookie
           res.cookie('token', token, {
@@ -231,6 +234,38 @@ const login =async(req,res)=>{
       };
 
 
+const verify = async (req, res,next) => {
+        // 1. Get token from cookie
+  const token = req.cookies.token;
+  
+  // 2. Check if token exists
+  if (!token) {
+    return res.status(401).json({ error: 'No authentication token provided' });
+  }
+
+  // 3. Verify the token
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      // Different error handling for different JWT errors
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Token expired' });
+      }
+      return res.status(403).json({ error: 'Invalid token' });
+    }
+    
+    // 4. Attach user data to request object
+    req.user = {
+      id: decoded.user_id,
+      username: decoded.username,
+    };
+    
+    console.log("ok")
+    // 5. Call next() to proceed to the route handler
+    next();
+  });
+}
+
+
   
 module.exports = {
     sayHello,
@@ -238,5 +273,6 @@ module.exports = {
     login,
     logout,
     forget_password,
-    resetPassword
+    resetPassword,
+    verify
 }

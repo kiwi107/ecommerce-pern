@@ -17,9 +17,13 @@ function authenticateToken(req, res, next) {
 
 // Token creation function
 function createToken(user) {
+  console.log("here in create token")
+  console.log(user)
   return jwt.sign(
     {
-      userId: user.id,
+      
+      user_id: user.account_id,
+     
       username: user.username,
     },
     process.env.JWT_SECRET,

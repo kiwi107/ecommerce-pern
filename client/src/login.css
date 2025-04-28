@@ -1,123 +1,53 @@
-/* Center the login form */
- .login-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #e2e6ea;
-    padding: 20px;
-   
-    border-radius: 10px;  /* Optional: To round the corners for a softer look */
-  }
-  .login-form {
-    position: relative;           /* so z-index can take effect */
-    z-index: 1;                   /* sit above the background */
-    background: #ffffff;          /* solid white */
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 400px;
-    width: 100%;
-  
-    /* subtle border for definition */
-    border: 1px solid rgba(0, 0, 0, 0.05);
-  
-    /* stronger, more diffuse shadow */
-    box-shadow:
-      0 16px 32px rgba(0, 0, 0, 0.15),
-      0 4px 8px   rgba(0, 0, 0, 0.06);
-  
-    /* animate lift on hover */
-   
-  }
-  
- 
-  /* Form title styling */
-  .login-form h2 {
-    color: #333;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  /* Error message box */
-  .error-message {
-    color: #dc3545;
-    background: #f8d7da;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #f5c2c7;
-    border-radius: 6px;
-    text-align: center;
-    font-weight: 500;
-  }
-  
-  /* Style the input fields */
-  .form-control {
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* Change border on input focus */
-  .form-control:focus {
-    border-color: #4d90fe;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Add red border and error styling */
-  .is-invalid {
-    border-color: #dc3545 !important;
-  }
-  
-  .invalid-feedback {
-    font-size: 0.875rem;
-    color: #dc3545;
-    margin-top: 5px;
-  }
-  
-  /* Submit button styling */
-  /* button {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    padding: 12px 0;
-    border-radius: 8px;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  } */
-  
-  /* Button hover effect 
-  /* button:hover {
-    background-color: #0056b3;
-  } */
-  
-  /* Link styling */
-  /* p a {
-    color: #007bff;
-    text-decoration: none;
-  }
-   */
-  /* p a:hover {
-    text-decoration: underline;
-  }  */
-  
-  /* Fade-in effect for error messages */
-  .fade-in {
-    animation: fadeIn 0.4s ease-in;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  } 
-  
+/* Container that centers the form */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  background-color: #dedfe0;
+  padding: 20px;
+}
+
+/* Reusable form style */
+.login-form,
+.register-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Scoped login and register buttons */
+.login-form .login-btn,
+.register-form .register-btn {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 12px 0;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form .login-btn:hover {
+  background-color: #0056b3;
+}
+
+.register-form .register-btn {
+  background-color: #28a745;
+}
+
+.register-form .register-btn:hover {
+  background-color: #218838;
+}
+
+/* Error message styling */
+.error-message {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  text-align: center;
+}
