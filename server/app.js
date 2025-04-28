@@ -1,20 +1,10 @@
 const express = require('express');
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const productRoutes = require('./routes/productRoutes.js');
+
 const morgan = require('morgan');
 require('dotenv').config();
->>>>>>> ded0f17 (homepage and navbar)
 
-=======
-const cors = require('cors');
-const morgan=require('morgan');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
->>>>>>> fd34bc77566e7d89c561c376bd68dac9f6d2533f
 const app = express();
 const port = 8000;
 
@@ -45,7 +35,7 @@ app.use('/products', productRoutes);
 app.use('/auth',authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/users', userRoutes);
-// app.use('/products', productRoutes);
+app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/payments', paymentRoutes);
 // app.use('/reviews', reviewRoutes);

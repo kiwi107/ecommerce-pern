@@ -12,8 +12,7 @@ const { sendEmail, EMAIL_SUBJECTS } = mailer;
 
 const sayHello = (req,res)=>{
 
-    res.send("hello world")
-
+  res.send("hello world")
 }
 //email
 //username

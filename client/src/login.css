@@ -1,5 +1,5 @@
 /* Center the login form */
-.login-container {
+ .login-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -78,7 +78,7 @@
   }
   
   /* Submit button styling */
-  button {
+  /* button {
     background-color: #007bff;
     color: white;
     font-weight: bold;
@@ -88,22 +88,22 @@
     width: 100%;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
+  } */
   
-  /* Button hover effect */
-  button:hover {
+  /* Button hover effect 
+  /* button:hover {
     background-color: #0056b3;
-  }
+  } */
   
   /* Link styling */
-  p a {
+  /* p a {
     color: #007bff;
     text-decoration: none;
   }
-  
-  p a:hover {
+   */
+  /* p a:hover {
     text-decoration: underline;
-  }
+  }  */
   
   /* Fade-in effect for error messages */
   .fade-in {
@@ -119,5 +119,5 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
+  } 
   
