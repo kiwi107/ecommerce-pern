@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const morgan = require('morgan');
+const { verifyToken } = require('./middlewares/auth'); // Import the verifyToken middleware
 require('dotenv').config();
 
 const app = express();
@@ -30,15 +31,12 @@ app.use(express.json());
 // Middleware for routing
 app.use('/auth',authRoutes)
 app.use('/admin',adminRoutes)
-app.use('/users', userRoutes);
+app.use('/users',verifyToken, userRoutes);
 app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/payments', paymentRoutes);
 // app.use('/reviews', reviewRoutes);
 // app.use('/promotions', promotionRoutes);
-
-
-
 
 
 

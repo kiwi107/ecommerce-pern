@@ -6,47 +6,53 @@ const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
     user: null,
-    lastChecked: null
+    lastChecked: null,
+    loading: true
   });
 
   const checkAuth = async () => {
+    // Check if we have already validated within the last 5 minutes (300,000 ms)
     if (authState.lastChecked && Date.now() - authState.lastChecked < 300000) {
-      console.log(authState.user)
+      console.log('Using cached authentication state', authState.user);
       return;
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/verify`, {
-        credentials: 'include',
-        headers: {
-          'Cache-Control': 'no-cache' // Prevent HTTP caching
-        }
+      // Generalized check using a "/auth/check" route
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/check`, {
+        credentials: 'include', // Send cookies with the request
+        headers: { 'Cache-Control': 'no-cache' }
       });
 
       if (response.ok) {
-        console.log('Auth check successful');
-       
         const data = await response.json();
-        console.log(data)
         setAuthState({
           isAuthenticated: true,
           user: data.user,
-          lastChecked: Date.now()
+          lastChecked: Date.now(),
+          loading: false
         });
-        console.log("here is authStateuser",authState.user)
+        console.log('Authentication check successful', data);
       } else {
         setAuthState({
           isAuthenticated: false,
           user: null,
-          lastChecked: Date.now()
+          lastChecked: Date.now(),
+          loading: false
         });
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
-      // Don't update lastChecked so we'll retry next time
+      console.error('Authentication check failed:', error);
+      setAuthState({
+        isAuthenticated: false,
+        user: null,
+        lastChecked: Date.now(),
+        loading: false
+      });
     }
   };
 
+  // Run the check on initial load
   useEffect(() => {
     checkAuth();
   }, []); // Runs once when the component mounts

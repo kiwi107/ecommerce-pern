@@ -59,7 +59,9 @@ function Navbar() {
                     {/* Right Icons */}
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                         <li className="nav-item">
-                            <i className="bi bi-person nav-link fs-5"></i>
+                        <Link to="/profile" className="nav-link">
+                            <i className="bi bi-person"></i>
+                        </Link>
                         </li>
                         <li className="nav-item">
                             <i className="bi bi-suit-heart nav-link fs-5"></i>

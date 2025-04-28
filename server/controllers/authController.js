@@ -28,7 +28,7 @@ const register = async (req, res) => {
     try {
       // Check if email already exists
       const result = await pool.query(
-        'SELECT 1 FROM accounts WHERE email = $1 LIMIT 1',
+        'SELECT 1 FROM client WHERE email = $1 LIMIT 1',
         [email]
       );
   
@@ -41,7 +41,7 @@ const register = async (req, res) => {
   
       // Insert new user into the database
       const insertUser = await pool.query(
-        'INSERT INTO accounts (username, password, email) VALUES ($1, $2, $3) RETURNING account_id, username, email',
+        'INSERT INTO client (username, password, email) VALUES ($1, $2, $3) RETURNING account_id, username, email',
         [username, hashedPassword, email]
       );
   
@@ -87,7 +87,7 @@ const login =async(req,res)=>{
         try {
           // Check if the user exists with the given email
           const result = await pool.query(
-            'SELECT * FROM accounts WHERE email = $1 LIMIT 1',
+            'SELECT * FROM client WHERE email = $1 LIMIT 1',
             [email]
           );
       
@@ -154,7 +154,7 @@ const login =async(req,res)=>{
 
         try{
             const result = await pool.query(
-                'SELECT * FROM accounts WHERE email = $1 LIMIT 1',
+                'SELECT * FROM client WHERE email = $1 LIMIT 1',
                 [email]
               );
         
@@ -168,7 +168,7 @@ const login =async(req,res)=>{
 
               const expiryDate=new Date(Date.now()+3600000); //1 hour from now
               
-              await pool.query('UPDATE accounts SET reset_token=$1 , reset_token_expiry =$2 WHERE email=$3',[token,expiryDate,email]);
+              await pool.query('UPDATE client SET reset_token=$1 , reset_token_expiry =$2 WHERE email=$3',[token,expiryDate,email]);
 
               //send email to user with the token
 
@@ -207,7 +207,7 @@ const login =async(req,res)=>{
           
             // 1. Find user by reset token
             const result = await pool.query(
-              'SELECT * FROM accounts WHERE reset_token = $1',
+              'SELECT * FROM client WHERE reset_token = $1',
               [token]
             );
 
@@ -222,7 +222,7 @@ const login =async(req,res)=>{
       
           const hashedPassword = await bcrypt.hash(password, 10);
           await pool.query(
-            'UPDATE accounts SET password = $1, reset_token = NULL WHERE account_id = $2',
+            'UPDATE client SET password = $1, reset_token = NULL WHERE account_id = $2',
             [hashedPassword, user.account_id]
           );
       
@@ -235,36 +235,36 @@ const login =async(req,res)=>{
       };
 
 
-const verify = async (req, res,next) => {
-        // 1. Get token from cookie
-  const token = req.cookies.token;
+// const verify = async (req, res,next) => {
+//         // 1. Get token from cookie
+//   const token = req.cookies.token;
   
-  // 2. Check if token exists
-  if (!token) {
-    return res.status(401).json({ error: 'No authentication token provided' });
-  }
+//   // 2. Check if token exists
+//   if (!token) {
+//     return res.status(401).json({ error: 'No authentication token provided' });
+//   }
 
-  // 3. Verify the token
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      // Different error handling for different JWT errors
-      if (err.name === 'TokenExpiredError') {
-        return res.status(401).json({ error: 'Token expired' });
-      }
-      return res.status(403).json({ error: 'Invalid token' });
-    }
+//   // 3. Verify the token
+//   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//     if (err) {
+//       // Different error handling for different JWT errors
+//       if (err.name === 'TokenExpiredError') {
+//         return res.status(401).json({ error: 'Token expired' });
+//       }
+//       return res.status(403).json({ error: 'Invalid token' });
+//     }
     
-    // 4. Attach user data to request object
-    req.user = {
-      id: decoded.user_id,
-      username: decoded.username,
-    };
+//     // 4. Attach user data to request object
+//     req.user = {
+//       id: decoded.user_id,
+//       username: decoded.username,
+//     };
     
-    console.log("ok")
-    // 5. Call next() to proceed to the route handler
-    next();
-  });
-}
+//     console.log("ok")
+//     // 5. Call next() to proceed to the route handler
+//     next();
+//   });
+// }
 
 
   
@@ -275,5 +275,4 @@ module.exports = {
     logout,
     forget_password,
     resetPassword,
-    verify
 }
