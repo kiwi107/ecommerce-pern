@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useEffect, useState } from 'react'
 import TagProducts from '../components/TagProducts'
+import Navbar from '../components/Navbar'
 
 function Home() {
   const [tags, setTags] = useState([])
@@ -25,6 +26,7 @@ function Home() {
 
   return (
     <div>
+      <Navbar />
 
 
       {tags.map((tag) => (

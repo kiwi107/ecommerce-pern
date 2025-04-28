@@ -3,7 +3,7 @@ const dotenv = require('dotenv'); // For loading environment variables
 const SECRET = process.env.JWT_SECRET;
 
 // Authentication middleware function
-function authenticateToken(req, res, next) {
+function verifyToken(req, res, next) {
   const token = req.cookies.token;
 
   if (!token) return res.sendStatus(401); // Unauthorized
@@ -31,4 +31,4 @@ function createToken(user) {
   );
 }
 
-module.exports = { authenticateToken, createToken };
+module.exports = { verifyToken, createToken };

@@ -17,7 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget-password" element={<ForgetPassword />} /> 
-        <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+
         <Route path="/reset-password/:token" element={<ResetPassword />} /> {/* token from URL */}
         {/* Add more routes as needed */}
       </Routes>

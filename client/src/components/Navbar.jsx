@@ -61,7 +61,9 @@ function Navbar() {
 
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <i className="bi bi-person nav-link"></i>
+                        <Link to="/profile" className="nav-link">
+                            <i className="bi bi-person"></i>
+                        </Link>
                         </li>
                         <li className="nav-item">
                             <i className="bi bi-suit-heart nav-link"></i>

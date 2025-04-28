@@ -1,9 +1,66 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import '../profile.css';
 import Navbar from '../components/Navbar';
+import AccountMenu from '../components/ProfileMenu'; 
+import { useState,useEffect } from 'react';
+
 
 const ProfileView = () => {
+  const [activeSection, setActiveSection] =useState('orders'); 
+  const [sectionData, setSectionData] = useState(null); // the fetched data
+  const [loading, setLoading] = useState(false); // for spinner/loader
+  const [error, setError] = useState(null); // if API fails
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      setSectionData(null);
+
+      try {
+        let response;
+        switch (activeSection) {
+          case 'favourites':
+            response = await fetch(`${process.env.REACT_APP_API_URL}/user/favourites`,{
+              method: 'Get',
+              headers: { 'Content-Type': 'application/json' 
+              },
+              credentials: 'include',
+            });
+            break;
+          case 'address-book':
+            response = await fetch('/user/addresses');
+            break;
+          case 'reviews':
+            response = await fetch('/user/reviews');
+            break;
+          case 'payment-cards':
+            response = await fetch('/user/payment-cards');
+            break;
+          case 'egift-card':
+            response = await fetch('/user/egift-cards');
+            break;
+          default:
+            response = null;
+        }
+        if (response && response.ok) {
+          const data = await response.json();
+          setSectionData(data);
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+    fetchData();
+
+  });
   const orders = [
     {
       id: 'HMEGHDESD05989',
@@ -22,70 +79,18 @@ const ProfileView = () => {
   ];
 
   return (
-    <div className="profile-page">
+
+    <div className="profile-view">
       <Navbar />
-      
       <div className="profile-layout">
-        {/* Left Side Menu */}
-        <aside className="account-menu">
-          <h3>MY ACCOUNT</h3>
-          <ul>
-            <li className="menu-header">ORDERS</li>
-            <li><Link to="/favourites">FAVOURITES</Link></li>
-            <li><Link to="/address-book">ADDRESS BOOK</Link></li>
-            
-            <li className="menu-header">PROFILE</li>
-            <li><Link to="/reviews">MY REVIEWS</Link></li>
-            
-            <li className="menu-header">PAYMENT</li>
-            <li><Link to="/payment-cards">PAYMENT CARDS</Link></li>
-            <li><Link to="/egift-card">EGIFT CARD</Link></li>
-            
-            <li className="menu-signout"><Link to="/signout">SIGN OUT</Link></li>
-          </ul>
-          
-          <div className="breadcrumb">
-            <Link to="/">HOME</Link> / <Link to="/my-account">MY ACCOUNT</Link>
-          </div>
-        </aside>
 
-        {/* Main Content Area */}
-        <main className="profile-content">
-          <div className="profile-header">
-            <h1>ACCOUNT & REWARDS</h1>
-          </div>
-
-          <section className="recent-orders">
-            <h2>RECENT ORDERS</h2>
-            {orders.map((order, index) => (
-              <div key={index} className="order-card">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Order Date</th>
-                      <th>Order Total</th>
-                      <th>Total Order Items</th>
-                      <th>Delivered</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{order.id}</td>
-                      <td>{order.date}</td>
-                      <td>{order.total}</td>
-                      <td>{order.items}</td>
-                      <td>{order.delivered ? '✓' : ''}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            ))}
-            <button className="view-all-btn">VIEW ALL ORDERS</button>
-          </section>
-        </main>
+        <AccountMenu />
       </div>
+
     </div>
+
+    
+    
   );
 };
 
