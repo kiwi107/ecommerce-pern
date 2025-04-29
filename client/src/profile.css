@@ -167,3 +167,7 @@
       max-width: 100%;
     }
   }
+  .active {
+    font-weight: bold;
+  }
+  

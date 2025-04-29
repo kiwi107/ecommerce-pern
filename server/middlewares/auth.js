@@ -4,13 +4,15 @@ const SECRET = process.env.JWT_SECRET;
 
 // Authentication middleware function
 function verifyToken(req, res, next) {
+  if (req.method === 'OPTIONS') return next()
   const token = req.cookies.token;
 
   if (!token) return res.sendStatus(401); // Unauthorized
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403); // Forbidden
-    req.user = user; // Attach decoded user info to request
+    req.user_id = user.user_id; 
+    console.log("user_id",req.user_id)
     next();
   });
 }

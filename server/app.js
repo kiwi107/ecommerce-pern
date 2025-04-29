@@ -25,13 +25,14 @@ app.use(morgan('dev'));
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true, //allow cookies and auth headers to be sent
+  exposedHeaders: ['set-cookie']
 }));
+
 app.use(cookieParser());
 app.use(express.json());
-// Middleware for routing
 app.use('/auth',authRoutes)
 app.use('/admin',adminRoutes)
-app.use('/users',verifyToken, userRoutes);
+app.use('/users',userRoutes);
 app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/payments', paymentRoutes);

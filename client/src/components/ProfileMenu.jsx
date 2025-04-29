@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-const AccountMenu = ({ activeSection, onSectionChange }) => {
+const AccountMenu = ({ activeSection, setActiveSection }) => {
   const handleClick = (section) => {
-    onSectionChange(section); 
+    setActiveSection(section); 
   };
 
   return (
@@ -14,7 +14,7 @@ const AccountMenu = ({ activeSection, onSectionChange }) => {
           className={activeSection === 'orders' ? 'active' : ''} 
           onClick={() => handleClick('orders')}
         >
-          FAVOURITES
+            MY ORDERS
         </li>
         <li 
           className={activeSection === 'favourites' ? 'active' : ''} 
@@ -29,12 +29,12 @@ const AccountMenu = ({ activeSection, onSectionChange }) => {
           ADDRESS BOOK
         </li>
 
-        <li className="menu-header">PROFILE</li>
+      
         <li 
           className={activeSection === 'profile' ? 'active' : ''} 
           onClick={() => handleClick('profile')}
         >
-          FAVOURITES
+            PROFILE
         </li>
         <li 
           className={activeSection === 'reviews' ? 'active' : ''} 
