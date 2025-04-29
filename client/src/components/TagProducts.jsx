@@ -51,7 +51,7 @@ function TagProducts({ tag_id }) {
                 </button>
             </div>
 
-            <div className="col-8 col-md-10 overflow-hidden"  >
+            <div className="col-8 col-md-10 overflow-hidden" style={{ padding: 0 }}>
                 <div
                     className="d-flex"
                     style={{
@@ -69,7 +69,7 @@ function TagProducts({ tag_id }) {
                 </div>
             </div>
 
-            <div className="col-2 col-md-1 d-flex align-items-center justify-content-center" style={{padding:0}}>
+            <div className="col-2 col-md-1 d-flex align-items-center justify-content-center" >
                 <button
                     onClick={handleNext}
                     className="btn btn-outline-secondary"
@@ -80,7 +80,6 @@ function TagProducts({ tag_id }) {
                 </button>
             </div>
         </div>
-
     );
 }
 

@@ -12,8 +12,7 @@ const { sendEmail, EMAIL_SUBJECTS } = mailer;
 
 const sayHello = (req,res)=>{
 
-    res.send("hello world")
-
+  res.send("hello world")
 }
 //email
 //username
@@ -79,6 +78,7 @@ const register = async (req, res) => {
 const login =async(req,res)=>{
    
         const { email, password } = req.body;
+    
       
         if (!email || !password) {
           return res.status(400).json({ message: 'Please fill all fields' });
