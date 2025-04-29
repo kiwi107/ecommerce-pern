@@ -99,7 +99,7 @@ const ProfileSection = ({ userData }) => {
           <Card className="text-center">
             <Card.Body>
               <Image
-                src={formData.profile_photo || '/default-avatar.png'}
+                src={formData.profile_image || '/default-avatar.png'}
                 roundedCircle
                 width={150}
                 height={150}
@@ -473,7 +473,7 @@ const ProfileView = () => {
 
   return (
     <div className="profile-view">
-      <Navbar />
+      
       <div className="profile-layout">
         <AccountMenu 
           activeSection={activeSection}

@@ -26,7 +26,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} /> {/* token from URL */}
           <Route path="/product/:id" element={<ProductDetails />} /> {/* Product ID from URL */}
-          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<ProtectedRoute element={<CheckoutPage />} />} /> 
         </Routes>
