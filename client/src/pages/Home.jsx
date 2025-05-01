@@ -2,14 +2,9 @@ import React from 'react'
 
 import { useEffect, useState } from 'react'
 import TagProducts from '../components/TagProducts'
-<<<<<<< HEAD
 //import image names landscape.jpg from assets
 
 
-
-=======
-import Navbar from '../components/Navbar'
->>>>>>> 8c3dbb0f791c298f9e3f7f28cd5cb37a05773d81
 
 function Home() {
   const [tags, setTags] = useState([])

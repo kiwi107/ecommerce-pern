@@ -18,7 +18,49 @@ const getUsers= async (req,res)=>{
 
 }
 
+
+const insertAddress = async (req, res) => {
+    const { street, apartment_no, floor, city, country } = req.body;
+    const account_id = req.user.user_id;
+
+    try {
+        const address = `(${street},${apartment_no},${floor},${city},${country})`;
+
+        await pool.query(
+            `UPDATE client
+             SET client_address = client_address || $1::address
+             WHERE account_id = $2`,
+            [address, account_id]
+        );
+
+        res.status(200).json({ message: 'Address added successfully.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to add address.' });
+    }
+};
+// On the server (e.g., Node.js/Express with pg)
+const getAddresses = async (req, res) => {
+    const  account_id  = req.user.user_id;
+    try {
+      const result = await pool.query(`
+        SELECT json_agg(a) as addresses
+        FROM client, unnest(client_address) as a
+        WHERE account_id = $1
+      `, [account_id]);
+  
+      res.json({ addresses: result.rows[0].addresses || [] });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to fetch addresses.' });
+    }
+  };
+  
+
+
 module.exports={
 
-    getUsers
+    getUsers,
+    insertAddress,
+    getAddresses
 }

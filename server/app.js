@@ -33,10 +33,10 @@ app.use('/auth',authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/users',verifyToken, userRoutes);
 app.use('/products', productRoutes);
-// app.use('/orders', orderRoutes);
+app.use('/orders',verifyToken, orderRoutes);
 // app.use('/payments', paymentRoutes);
 // app.use('/reviews', reviewRoutes);
-// app.use('/promotions', promotionRoutes);
+app.use('/promotions',verifyToken, promotionRoutes);
 
 
 

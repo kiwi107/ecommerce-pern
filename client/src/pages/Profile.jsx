@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '../profile.css';
-import Navbar from '../components/Navbar';
+
 import AccountMenu from '../components/ProfileMenu'; 
 import { useState,useEffect } from 'react';
 
@@ -81,7 +81,7 @@ const ProfileView = () => {
   return (
 
     <div className="profile-view">
-      <Navbar />
+   
       <div className="profile-layout">
 
         <AccountMenu />

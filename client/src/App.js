@@ -11,7 +11,7 @@ import Cart from './pages/Cart';
 import Profile from './pages/Profile'; 
 import ProtectedRoute from './components/ProtectedRoute'; 
 import CheckoutPage from './pages/Checkout';
-
+import OrderDetails from './pages/OrderDetails'; 
 
 function App() {
   return (
@@ -26,9 +26,10 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} /> {/* token from URL */}
           <Route path="/product/:id" element={<ProductDetails />} /> {/* Product ID from URL */}
-          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<ProtectedRoute element={<CheckoutPage />} />} /> 
+          <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} /> {/* Protected route for checkout */}
+          <Route path="/order/:order_id" element={<OrderDetails />} />
         </Routes>
       </Router>
     </CartProvider>

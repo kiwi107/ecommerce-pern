@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-// Bootstrap Icons: https://icons.getbootstrap.com/
 
 function ProductDetails() {
     const { id } = useParams();
@@ -14,11 +13,9 @@ function ProductDetails() {
     const { addToCart } = useCart();
     const [toastMsg, setToastMsg] = useState('');
 
-    // New: review related states
     const [reviews, setReviews] = useState([]);
     const [newRating, setNewRating] = useState(0);
-
-    const [hoverRating, setHoverRating] = useState(0); // hovered rating
+    const [hoverRating, setHoverRating] = useState(0);
     const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
@@ -30,7 +27,7 @@ function ProductDetails() {
                 if (data.product.images?.length) {
                     setMainImage(data.product.images[0]);
                 }
-                setReviews(data.product.reviews || []); // Assuming backend sends reviews inside product
+                setReviews(data.product.reviews || []);
             } catch (err) {
                 console.error('Error fetching product:', err);
             }
@@ -66,16 +63,14 @@ function ProductDetails() {
 
     const isColorAvailable = (color) =>
         product.variants.some(
-            v =>
-                v.color === color &&
+            v => v.color === color &&
                 (!selectedSize || v.size === selectedSize) &&
                 v.stock_number > 0
         );
 
     const isSizeAvailable = (size) =>
         product.variants.some(
-            v =>
-                v.size === size &&
+            v => v.size === size &&
                 (!selectedColor || v.color === selectedColor) &&
                 v.stock_number > 0
         );
@@ -98,6 +93,7 @@ function ProductDetails() {
             color: selectedColor,
             size: selectedSize,
             variant_id: variant.variant_id,
+            discount_amount: product.discount_amount,
             quantity,
         };
 
@@ -118,22 +114,26 @@ function ProductDetails() {
         };
 
         setReviews([review, ...reviews]);
-        setNewRating(5);
+        setNewRating(0);
         setNewComment('');
     };
 
-    const renderStars = (count) => {
-        return (
-            <>
-                {[...Array(count)].map((_, idx) => (
-                    <i key={idx} className="bi bi-star-fill text-warning"></i>
-                ))}
-                {[...Array(5 - count)].map((_, idx) => (
-                    <i key={idx + count} className="bi bi-star text-warning"></i>
-                ))}
-            </>
-        );
-    };
+    const renderStars = (count) => (
+        <>
+            {[...Array(count)].map((_, idx) => (
+                <i key={idx} className="bi bi-star-fill text-warning"></i>
+            ))}
+            {[...Array(5 - count)].map((_, idx) => (
+                <i key={idx + count} className="bi bi-star text-warning"></i>
+            ))}
+        </>
+    );
+
+    // Check discount
+    const hasDiscount = product.discount_amount != null;
+    const discountedPrice = hasDiscount
+        ? product.price * (1 - product.discount_amount / 100)
+        : product.price;
 
     return (
         <div className="container">
@@ -165,7 +165,23 @@ function ProductDetails() {
                     <h2>{product.name}</h2>
                     <h5 className="text-muted">{product.category} • {product.gender}</h5>
                     <p>{product.description}</p>
-                    <h5 className="text-success">Price: ${product.price}</h5>
+
+                    {/* PRICE DISPLAY */}
+                    <div className="mb-2">
+                        {hasDiscount ? (
+                            <>
+                                <h5 className="text-success mb-0">
+                                    Price:
+                                    <span className="text-decoration-line-through text-muted ms-2">${product.price}</span>
+                                    <span className="ms-2 text-danger">${discountedPrice}</span>
+                                </h5>
+                                <small className="text-success">{product.discount_amount}% OFF</small>
+                            </>
+                        ) : (
+                            <h5 className="text-success">Price: ${product.price}</h5>
+                        )}
+                    </div>
+
                     <p>Loyalty Points: {product.loyalty_points}</p>
                     <hr />
 
@@ -181,7 +197,7 @@ function ProductDetails() {
                                     onClick={() => {
                                         setSelectedColor(color);
                                         if (selectedSize && !isSizeAvailable(selectedSize)) {
-                                            setSelectedSize('');
+                                            setSelectedSize(''); // Reset size if no available size for selected color
                                         }
                                     }}
                                 >
@@ -203,7 +219,7 @@ function ProductDetails() {
                                     onClick={() => {
                                         setSelectedSize(size);
                                         if (selectedColor && !isColorAvailable(selectedColor)) {
-                                            setSelectedColor('');
+                                            setSelectedColor(''); // Reset color if no available color for selected size
                                         }
                                     }}
                                 >
@@ -248,6 +264,8 @@ function ProductDetails() {
                     </button>
                 </div>
             </div>
+
+            {/* REVIEW SECTION */}
             <div className="col-12 mt-5">
                 <h4>Add a Review</h4>
                 <div className="mb-3">
@@ -279,19 +297,20 @@ function ProductDetails() {
                     Submit Review
                 </button>
             </div>
+
+            {/* REVIEWS LIST */}
             <div className="col-12 mt-5">
                 <h4>Reviews</h4>
                 {reviews.length > 0 ? (
                     reviews.map((review, idx) => (
                         <div key={idx} className="border p-3 mb-3 rounded">
-
                             <div className="d-flex mb-2">
-                                {renderStars(review.rating)} <span className='ms-2'>by {review.reviewer_name}</span>
+                                {renderStars(review.rating)}
+                                <span className='ms-2'>by {review.username}</span>
                                 <span className="ms-auto text-muted">
                                     {new Date(review.created_at).toLocaleDateString()}
                                 </span>
                             </div>
-
                             <p>{review.comment}</p>
                         </div>
                     ))
@@ -300,9 +319,7 @@ function ProductDetails() {
                 )}
             </div>
 
-
-
-            {/* Toast Notification */}
+            {/* TOAST NOTIFICATION */}
             {toastMsg && (
                 <div className="toast-container position-fixed bottom-0 end-0 p-3">
                     <div className="toast show align-items-center text-bg-success border-0">
