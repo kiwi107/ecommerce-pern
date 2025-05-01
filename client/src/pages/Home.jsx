@@ -2,8 +2,6 @@ import React from 'react'
 
 import { useEffect, useState } from 'react'
 import TagProducts from '../components/TagProducts'
-//import image names landscape.jpg from assets
-
 
 
 function Home() {
